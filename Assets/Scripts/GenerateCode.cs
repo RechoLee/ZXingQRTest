@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using System;
 using ZXing;
 using ZXing.QrCode;
+using System.IO;
 
 public class GenerateCode : MonoBehaviour {
 
@@ -13,7 +14,7 @@ public class GenerateCode : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         //Generate("http://www.baidu.com/");
-        Generate2("123456789052154561316130340");
+        Generate("123456789052154561316130340");
 	}
 	
 	// Update is called once per frame
@@ -47,7 +48,15 @@ public class GenerateCode : MonoBehaviour {
         texture2D.Apply();
 
         codeImage.texture = texture2D;
-        
+
+        //保存
+        var path=Application.dataPath+"/Image";
+        string name = Guid.NewGuid().ToString() + ".png";
+        FileStream fs = new FileStream(path + "/" + name, FileMode.OpenOrCreate);
+        fs.Write(texture2D.EncodeToPNG(), 0, texture2D.EncodeToPNG().Length);
+        fs.Dispose();
+        fs.Close();
+
     }
 
     /// <summary>
@@ -71,6 +80,7 @@ public class GenerateCode : MonoBehaviour {
         };
 
         //
+        //https://docs.unity3d.com/Manual/class-TextureImporter.html
         Color32[] code = bw.Write(info);
         Texture2D texture = new Texture2D(256,128);
         texture.SetPixels32(code);
