@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using System.Drawing;
 using ZXing;
 using ZXing.QrCode;
 using System.IO;
+using ZXing.QrCode.Internal;
+using ZXing.Common;
 
 public class GenerateCode : MonoBehaviour {
 
@@ -13,9 +16,10 @@ public class GenerateCode : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        //Generate("http://www.baidu.com/");
-        Generate("123456789052154561316130340");
-	}
+        Generate("http://www.baidu.com/");
+        //Generate("123456789052154561316130340");
+        //Test("Hello");
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -80,7 +84,6 @@ public class GenerateCode : MonoBehaviour {
         };
 
         //
-        //https://docs.unity3d.com/Manual/class-TextureImporter.html
         Color32[] code = bw.Write(info);
         Texture2D texture = new Texture2D(256,128);
         texture.SetPixels32(code);
@@ -96,5 +99,25 @@ public class GenerateCode : MonoBehaviour {
     {
         BarcodeWriter bw = new BarcodeWriter();
         
+    }
+
+    public void Test(string text)
+    {
+        string path = "C:/Users/Recho/Pictures/Saved Pictures/test.png";
+        Bitmap logo = new Bitmap(path);
+
+        //构造写码器
+        MultiFormatWriter writer = new MultiFormatWriter();
+        Dictionary<EncodeHintType, object> hint = new Dictionary<EncodeHintType, object>();
+        hint.Add(EncodeHintType.CHARACTER_SET, "UTF-8");
+        hint.Add(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
+
+        //生成二维码
+        BitMatrix bm = writer.encode(text, BarcodeFormat.QR_CODE, 300, 300, hint);
+        //BarcodeWriter<Bitmap> br = new BarcodeWriter<Bitmap>();
+        BarcodeWriter br = new BarcodeWriter();
+        Color32[] map = br.Write(bm);
+        //Bitmap bitmap = new Bitmap();
+        //map.Save("C:/Users/Recho/Pictures/Saved Pictures/test1.png");
     }
 }

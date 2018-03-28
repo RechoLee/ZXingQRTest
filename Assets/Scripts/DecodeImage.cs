@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using ZXing;
+using System.Drawing;
+using ZXing.QrCode.Internal;
+using ZXing.Common;
 
 public class DecodeImage : MonoBehaviour {
 
@@ -15,7 +18,6 @@ public class DecodeImage : MonoBehaviour {
     void Start () {
 
         DecodeForFile();
-
     }
 
     /// <summary>
@@ -63,4 +65,6 @@ public class DecodeImage : MonoBehaviour {
 
         Debug.Log(result.Text);
     }
+
+
 }
