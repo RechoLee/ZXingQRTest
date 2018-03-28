@@ -12,7 +12,8 @@ public class GenerateCode : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        Generate("Hello World!");
+        //Generate("http://www.baidu.com/");
+        Generate2("123456789052154561316130340");
 	}
 	
 	// Update is called once per frame
@@ -26,7 +27,7 @@ public class GenerateCode : MonoBehaviour {
     public void Generate(string info)
     {
         BarcodeWriter bw = new BarcodeWriter();
-        bw.Format = BarcodeFormat.QR_CODE;
+        bw.Format = BarcodeFormat.QR_CODE;//二维码
         //需要引入QrCode命名空间
         QrCodeEncodingOptions options = new QrCodeEncodingOptions
         {
@@ -34,7 +35,7 @@ public class GenerateCode : MonoBehaviour {
             DisableECI = true,
             Height = 256,
             Width= 256,
-            Margin=1,
+            Margin=2,
             CharacterSet="UTF-8",
         };
 
@@ -46,5 +47,33 @@ public class GenerateCode : MonoBehaviour {
         texture2D.Apply();
 
         codeImage.texture = texture2D;
+        
+    }
+
+    /// <summary>
+    /// 生成条形码
+    /// </summary>
+    /// <param name="info"></param>
+    public void Generate2(string info)
+    {
+        QrCodeEncodingOptions myOptions = new QrCodeEncodingOptions
+        {
+            Width = 256,
+            Height= 128,
+            Margin=2
+        };
+
+        BarcodeWriter bw = new BarcodeWriter
+        {
+            Format = BarcodeFormat.CODE_128,//关键部分
+            Options = myOptions
+        };
+
+        //
+        Color32[] code = bw.Write(info);
+        Texture2D texture = new Texture2D(256,128);
+        texture.SetPixels32(code);
+        texture.Apply();
+        codeImage.texture = texture;
     }
 }
