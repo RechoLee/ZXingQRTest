@@ -14,7 +14,7 @@
 > 注意事项
 * 这里需要注意使用BarcodeWriter的Write的方法只能设置大小为256x256
 
-### 生成二维码的方法
+### 生成二维码的方法（只是其中一种）
 #### Generate.cs文件中
 ```C#
 	///生成二维码的方法，使用unity开发的
@@ -73,5 +73,32 @@
         codeImage.texture = texture;
     }
 ```
+## 扫描二维码 unity中实现
+### 所使用的方法（当然不止这一种）
+#### DecodeImage.cs文件中
+```C#
+    void Start () {
+        WebCamDevice[] devices = WebCamTexture.devices;//获取设备相机集合
+        string webCamName = devices[0].name;//
+        webCam = new WebCamTexture(webCamName, 400,300);//相机的Texture
+        rawImage.texture = webCam;//将texture显示在界面。
+        //开始获取
+        webCam.Play();
 
+	}
+```
+##### 主要调用的ZXing中的方法
+```C#
+    /// <summary>
+    /// 将拍摄的二维码解码 获取其中的信息
+    /// </summary>
+    public void Decode()
+    {
+        BarcodeReader br = new BarcodeReader();
+        Color32[] data = webCam.GetPixels32();
 
+        Result result= br.Decode(data, 400, 300);
+
+        Debug.Log(result.Text);
+    }
+```

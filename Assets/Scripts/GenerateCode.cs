@@ -66,6 +66,7 @@ public class GenerateCode : MonoBehaviour {
         BarcodeWriter bw = new BarcodeWriter
         {
             Format = BarcodeFormat.CODE_128,//关键部分
+            //Format=BarcodeFormat.ITF,
             Options = myOptions
         };
 
@@ -75,5 +76,15 @@ public class GenerateCode : MonoBehaviour {
         texture.SetPixels32(code);
         texture.Apply();
         codeImage.texture = texture;
+    }
+
+    /// <summary>
+    /// 生成带logo的二维码
+    /// </summary>
+    /// <param name="info"></param>
+    public void Generate3(string info)
+    {
+        BarcodeWriter bw = new BarcodeWriter();
+        
     }
 }
